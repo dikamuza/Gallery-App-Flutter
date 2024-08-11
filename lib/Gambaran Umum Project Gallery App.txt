@@ -1,0 +1,126 @@
+### Gambaran Umum Proyek `gallery_app`
+
+`gallery_app` adalah proyek Flutter yang dirancang untuk menampilkan galeri gambar yang diambil dari API. Aplikasi ini menggunakan beberapa paket, termasuk `get`, `cached_network_image`, `flutter_staggered_grid_view`, dan `dio`. Berikut adalah rincian lengkap dari setiap file Dart dalam proyek ini, termasuk fungsinya, metode, dan dependensi.
+
+### 1. `main.dart`
+
+#### **Tujuan:**
+- File `main.dart` berfungsi sebagai titik masuk dari aplikasi Flutter. File ini menginisialisasi aplikasi dan mengatur struktur dasarnya.
+
+#### **Komponen Utama:**
+- **Kelas `MyApp`:** Widget stateless yang mewakili akar dari aplikasi.
+  - **`GetMaterialApp:`** Widget ini dari paket GetX digunakan sebagai pengganti `MaterialApp` standar. Widget ini menyediakan fitur tambahan seperti manajemen status dan injeksi dependensi.
+  - **`home:`** Menetapkan `HomeView` sebagai layar awal.
+
+#### **Dependensi:**
+- `flutter/material.dart`
+- `get/get.dart`
+
+### 2. `home_view.dart`
+
+#### **Tujuan:**
+- File `home_view.dart` mendefinisikan antarmuka pengguna utama dari aplikasi, termasuk tampilan galeri, tab bar khusus, dan app bar.
+
+#### **Komponen Utama:**
+- **Kelas `HomeView`:** Widget stateless yang berfungsi sebagai layar utama aplikasi.
+  - **`AppController:`** Controller diinisialisasi menggunakan `Get.put()` untuk menangani status dan data.
+  - **`MyAppBar:`** Widget app bar khusus yang didefinisikan dalam file `app_bar.dart`.
+  - **`_buildTabBar:`** Metode untuk membuat tab bar khusus dengan animasi.
+  - **`Obx:`** Digunakan untuk mendengarkan perubahan status controller dan memperbarui UI sesuai dengan perubahan tersebut.
+
+#### **Dependensi:**
+- `cached_network_image/cached_network_image.dart`
+- `flutter/cupertino.dart`
+- `flutter/material.dart`
+- `flutter_staggered_grid_view/flutter_staggered_grid_view.dart`
+- `get/get.dart`
+- `google_fonts/google_fonts.dart`
+- `loading_animation_widget/loading_animation_widget.dart`
+
+### 3. `app_bar.dart`
+
+#### **Tujuan:**
+- File `app_bar.dart` mendefinisikan widget app bar khusus yang digunakan di `HomeView`.
+
+#### **Komponen Utama:**
+- **Kelas `MyAppBar`:** Widget stateless yang membuat app bar bergaya dengan judul dan subjudul.
+
+#### **Dependensi:**
+- `flutter/material.dart`
+- `google_fonts/google_fonts.dart`
+
+### 4. `app_controller.dart`
+
+#### **Tujuan:**
+- File `app_controller.dart` adalah controller utama yang mengelola status aplikasi, termasuk mengambil data dari API, menangani status pemuatan, dan mengelola tab yang dipilih.
+
+#### **Komponen Utama:**
+- **Kelas `AppController`:** Mewarisi dari `GetxController` dan mengelola status aplikasi.
+  - **`photos:`** Daftar observasi yang menyimpan foto-foto yang diambil.
+  - **`isLoading:`** Boolean observasi untuk mengelola status pemuatan.
+  - **`getPictureData:`** Metode untuk mengambil data dari API menggunakan `DioService`.
+  - **`ordersFunc:`** Metode untuk mengubah urutan gambar dan menyegarkan galeri.
+
+#### **Dependensi:**
+- `get/get.dart`
+- `dio_service.dart`
+- `photos_model.dart`
+
+### 5. `detail_view.dart`
+
+#### **Tujuan:**
+- File `detail_view.dart` mendefinisikan tampilan detail dari gambar yang dipilih dari galeri.
+
+#### **Komponen Utama:**
+- **Kelas `DetailsView`:** Widget stateless yang menampilkan tampilan layar penuh dari gambar dengan detail tambahan seperti tanggal pembuatan dan nama pembuat.
+
+#### **Dependensi:**
+- `cached_network_image/cached_network_image.dart`
+- `flutter/material.dart`
+- `get/get.dart`
+- `google_fonts/google_fonts.dart`
+- `loading_animation_widget/loading_animation_widget.dart`
+- `app_controller.dart`
+
+### 6. `dio_service.dart`
+
+#### **Tujuan:**
+- File `dio_service.dart` mendefinisikan kelas layanan untuk membuat permintaan HTTP menggunakan paket Dio.
+
+#### **Komponen Utama:**
+- **Kelas `DioService`:** Kelas singleton yang menyediakan metode untuk membuat permintaan GET.
+  - **`getURL:`** Metode statis yang membuat permintaan GET dan mengembalikan respons.
+
+#### **Dependensi:**
+- `dio/dio.dart`
+
+### 7. `photos_model.dart`
+
+#### **Tujuan:**
+- File `photos_model.dart` mendefinisikan model data untuk foto-foto yang diambil dari API.
+
+#### **Komponen Utama:**
+- **Kelas `PhotosModel`:** Kelas model yang mewakili struktur data foto.
+  - **`fromJson:`** Konstruktor yang mengurai data JSON ke dalam model.
+
+### **Dependensi yang Diperlukan:**
+Untuk menjalankan proyek `gallery_app`, dependensi berikut perlu diinstal:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  get:
+  cached_network_image:
+  flutter_staggered_grid_view:
+  dio:
+  google_fonts:
+  loading_animation_widget:
+```
+
+### **Ringkasan Fungsionalitas:**
+- **Inisialisasi Aplikasi:** Aplikasi diinisialisasi di `main.dart` dan menggunakan GetX untuk routing dan manajemen status.
+- **Integrasi API:** Aplikasi mengambil gambar dari API Unsplash menggunakan `DioService`.
+- **Manajemen Status:** `AppController` menangani status aplikasi, termasuk pemuatan dan pengambilan data.
+- **Komponen UI Kustom:** `HomeView` mencakup app bar kustom, tab bar, dan tampilan grid bertingkat untuk menampilkan gambar.
+- **Tampilan Detail:** Pengguna dapat mengetuk gambar untuk melihatnya dalam layar penuh dengan detail tambahan.
